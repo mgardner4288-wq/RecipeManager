@@ -1,0 +1,37 @@
+@page
+@model RecipeManager.Pages.Recipes.IndexModel
+@{
+    ViewData["Name"] = "Recipes";
+}
+
+<h2>Recipies</h2>
+
+<p>
+    <a asp-page="/Recipes/Create" class="btn btn primary"> Create New</a>
+</p>
+
+@if (Model.Recipes.Count == 0)
+{
+    <p> No Recipes yet.</p>
+}
+else 
+{
+    <table class="table">
+        <thread>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thread>
+        <tbody>
+         @foreach (var recipe in Model.Recipes)
+         {
+            <tr>
+                <td>@recipe.Name</td>
+                <td>@recipe.Description</td>
+            </tr>
+         }   
+        </tbody>
+    </table>
+    
+}

@@ -1,0 +1,13 @@
+# Node
+node_modules/
+
+# .NET
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
