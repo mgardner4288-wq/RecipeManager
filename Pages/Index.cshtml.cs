@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RecipeManager.Data;
-using RecipeManager.Models;
+using RecipeManager.Models;  //This is to create a merge
+
 
 namespace RecipeManager.Pages
 {
