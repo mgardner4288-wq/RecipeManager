@@ -60,6 +60,57 @@ else
         <button type="submit">Create Product</button>
     </form>
 
+    <h2>Products</h2>
+
+    @if (Model.Products.Any())
+    {
+        <ul>
+        @foreach (var product in Model.Products)
+        {
+            <li>
+                @product.ProductName - $@product.Price - Inventory: @product.Inventory - Seller: @product.SellerEmail
+
+                @if (Model.IsLoggedIn && Model.UserEmail == product.SellerEmail)
+                {
+                    <form method="post" asp-page-handler="StartEdit" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit">Edit</button>
+                    </form>
+
+                    <form method="post" asp-page-handler="DeleteProduct" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit">Delete</button>
+                    </form>
+                }
+            </li>
+        }
+        </ul>
+    }
+    else
+    {
+        <p>No products available.</p>
+    }
+
+    @if (Model.IsEditing)
+    {
+        <h2>Edit Product</h2>
+
+        <form method="post" asp-page-handler="UpdateProduct">
+            <input type="hidden" asp-for="EditProductId" />
+
+            <label asp-for="EditProductName">Product Name:</label><br />
+            <input asp-for="EditProductName" /><br /><br />
+
+            <label asp-for="EditPrice">Price:</label><br />
+            <input asp-for="EditPrice" type="number" step="0.01" /><br /><br />
+
+            <label asp-for="EditInventory">Inventory:</label><br />
+            <input asp-for="EditInventory" type="number" min="0" /><br /><br />
+
+            <button type="submit">Update Product</button>
+        </form>
+    }
+
     <h2>Purchase Product</h2>
 
     <form method="post" asp-page-handler="Purchase">
@@ -78,6 +129,52 @@ else
 
         <button type="submit">Purchase</button>
     </form>
+
+    @if (Model.IsLoggedIn)
+   {
+    <h2>My Orders</h2>
+
+    @if (Model.BuyerOrders.Any())
+    {
+        <ul>
+        @foreach (var order in Model.BuyerOrders)
+        {
+            <li>
+                Product: @order.Product.ProductName |
+                Seller: @order.Product.SellerEmail |
+                Quantity: @order.Quantity
+            </li>
+        }
+        </ul>
+    }
+    else
+    {
+        <p>You have not placed any orders yet.</p>
+    }
+    }
+
+    @if (Model.IsLoggedIn)
+    {
+    <h2>Orders for My Products</h2>
+
+    @if (Model.SellerOrders.Any())
+    {
+        <ul>
+        @foreach (var order in Model.SellerOrders)
+        {
+            <li>
+                Product: @order.Product.ProductName |
+                Buyer: @order.BuyerEmail |
+                Quantity: @order.Quantity
+            </li>
+        }
+        </ul>
+    }
+    else
+    {
+        <p>No orders for your products yet.</p>
+    }
+    }
 
     @if (!string.IsNullOrEmpty(Model.Message))
     {
